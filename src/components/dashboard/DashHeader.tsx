@@ -1,4 +1,5 @@
 // src/components/dashboard/DashHeader.tsx
+
 'use client';
 
 import { useUserAuth } from '@/app/context/AuthContext';
@@ -43,17 +44,17 @@ export default function DashHeader() {
   };
 
   return (
-    <header className="h-14 bg-background text-foreground px-6 flex items-center justify-between border-b border-border sticky top-0 z-50">
+    <header className="h-14 bg-background text-foreground px-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 shadow-sm">
       <div className="flex items-center space-x-2">
-        <h1 className="text-lg sm:text-xl font-bold">
-          👋 Welcome, {userInfo.name}
+        <h1 className="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-200">
+          Dashboard
         </h1>
       </div>
 
       <div className="flex items-center space-x-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className="cursor-pointer ring-2 ring-primary">
+            <Avatar className="cursor-pointer hover:ring-2 hover:ring-blue-500 transition">
               <AvatarImage
                 src={userInfo.photo || undefined}
                 alt={userInfo.name || 'User'}
