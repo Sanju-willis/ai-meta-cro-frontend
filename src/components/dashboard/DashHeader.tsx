@@ -1,12 +1,33 @@
-// src\components\dashboard\DashHeader.tsx
+// src/components/dashboard/DashHeader.tsx
 'use client';
 
 import { useUserAuth } from '@/app/context/AuthContext';
-import { useState } from 'react';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  User,
+  LogOut,
+  Settings,
+  HelpCircle,
+  Sun,
+  Moon,
+} from 'lucide-react';
+import { useTheme } from 'next-themes';
 
-export default function UserHeader() {
+export default function DashHeader() {
   const { userInfo, clearUserSession } = useUserAuth();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   if (!userInfo) {
     return (
@@ -16,46 +37,76 @@ export default function UserHeader() {
     );
   }
 
+  const handleLogout = () => {
+    clearUserSession();
+    window.location.href = '/login';
+  };
+
   return (
-    <div className="flex items-center justify-between w-full p-4 bg-gray-100">
-      <div>
-        <h1 className="text-2xl font-bold">👋 Welcome, {userInfo.name}</h1>
-        <p className="text-gray-600 text-sm">{userInfo.email}</p>
+    <header className="h-14 bg-background text-foreground px-6 flex items-center justify-between border-b border-border sticky top-0 z-50">
+      <div className="flex items-center space-x-2">
+        <h1 className="text-lg sm:text-xl font-bold">
+          👋 Welcome, {userInfo.name}
+        </h1>
       </div>
 
-      <div className="relative">
-        <button
-          className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-        >
-          ⚙️ Options
-        </button>
-
-        {dropdownOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-10">
-            <button className="block px-4 py-2 text-left w-full hover:bg-gray-100">
-              🔔 Notifications
-            </button>
-            <button className="block px-4 py-2 text-left w-full hover:bg-gray-100">
-              ❓ Help
-            </button>
-            <button className="block px-4 py-2 text-left w-full hover:bg-gray-100">
-              Account Settings
-            </button>
-            <button className="block px-4 py-2 text-left w-full hover:bg-gray-100">
-              Privacy Policy
-            </button>
-            <button className="block px-4 py-2 text-left w-full hover:bg-gray-100"
-               onClick={() => {
-                    clearUserSession();
-                    window.location.href = '/login';
-                    
-               }}>
+      <div className="flex items-center space-x-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="cursor-pointer ring-2 ring-primary">
+              <AvatarImage
+                src={userInfo.photo || undefined}
+                alt={userInfo.name || 'User'}
+              />
+              <AvatarFallback>
+                <User size={16} />
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel className="flex flex-col">
+              <span>{userInfo.name}</span>
+              <span className="text-xs text-muted-foreground">
+                {userInfo.email}
+              </span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <User size={16} className="mr-2" />
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings size={16} className="mr-2" />
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <HelpCircle size={16} className="mr-2" />
+              Help
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun size={16} className="mr-2" />
+                  Light Mode
+                </>
+              ) : (
+                <>
+                  <Moon size={16} className="mr-2" />
+                  Dark Mode
+                </>
+              )}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut size={16} className="mr-2" />
               Logout
-            </button>
-          </div>
-        )}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-    </div>
+    </header>
   );
 }
