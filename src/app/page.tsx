@@ -3,6 +3,7 @@
 'use client';
 
 import { useState } from 'react';
+import Header from '@/components/landing/Header';
 import { Button } from '@/components/ui/button';
 import {
   Mail,
@@ -43,6 +44,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0a0a0f] to-[#0f0f1a] text-gray-300 font-sans">
+      <Header />
       
       {/* HERO */}
       <section className="min-h-screen flex flex-col justify-center items-center px-4 text-center animate-fade-up">
