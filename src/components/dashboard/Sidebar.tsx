@@ -1,10 +1,10 @@
 // src\components\dashboard\Sidebar.tsx
 
-import { useDashboard } from '@/app/context/DashboardContext';
+import { useDashboardContext } from '@/app/context/DashboardContext';
 
 
 export default function Sidebar() {
-  const { setActiveView } = useDashboard();
+  const { setActiveView } = useDashboardContext();
 
      return (
           <aside className="w-64 bg-gray-800 text-white h-screen p-4">
@@ -20,12 +20,29 @@ export default function Sidebar() {
             </li>
             <li>
               <button
-              onClick={() => setActiveView('profile')}
+              onClick={() => setActiveView('company')}
               className="hover:underline w-full text-left"
               >
-            👤 Profile
+            👤 Company
 
               </button>
+            </li>
+            <li>
+              <button
+              onClick={() => setActiveView('items')}
+              className="hover:underline w-full text-left"
+              >
+            👤 Items
+
+              </button>
+            </li>
+                        <li>
+            <button
+            onClick={() => setActiveView('meta')}
+              >
+                ⚙️ Meta
+                </button>
+              
             </li>
             <li>
             <button

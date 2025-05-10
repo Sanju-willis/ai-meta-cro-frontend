@@ -20,7 +20,7 @@ export function DashboardProvider ({ children }:{ children: ReactNode}) {
      );
 }
 
-export function useDashboard() {
+export function useDashboardContext() {
      const context = useContext(DashboardContext);
 
      if (context === undefined) {

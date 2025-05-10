@@ -1,4 +1,4 @@
 // src\app\dashboard\pages\SettingsPage.tsx
-export default funciton SettingPage() {
+export default function SettingsPage() {
      return <p> This is Settings Page. </p>
 }
