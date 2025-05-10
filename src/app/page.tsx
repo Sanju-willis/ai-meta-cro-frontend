@@ -1,119 +1,143 @@
 // src\app\page.tsx
+
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Mail, CheckCircle, Zap, Target, BarChart3 } from 'lucide-react';
 import Header from '@/components/landing/Header';
-import Footer from '@/components/landing/Footer';
 
-export default function Home() {
+export default function LandingPage() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle');
 
-  const router = useRouter();
-
-  const handleSignup = () => router.push('/signup');
+  const handleSubscribe = async () => {
+    if (!email) {
+      setStatus('Please enter a valid email.');
+      return;
+    }
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setStatus('Thanks for subscribing!');
+        setEmail('');
+      } else {
+        setStatus('Something went wrong. Please try again.');
+      }
+    } catch {
+      setStatus('Error: Please try again later.');
+    }
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-black to-gray-950 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-[#0a0a0f] to-[#0f0f1a] text-gray-300 font-sans">
       <Header />
-
-      {/* Hero Section */}
-      <main className="flex-1 flex flex-col justify-center items-center text-center px-4 py-28 min-h-[85vh]">
-        <h1 className="text-4xl sm:text-6xl font-extrabold mb-6 text-blue-400 drop-shadow-lg">
-          Automate. Optimize. Scale.
+      
+      {/* HERO */}
+      <section className="min-h-screen flex flex-col justify-center items-center px-4 text-center">
+        <h1 className="text-4xl sm:text-6xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text mb-4">
+          AI Meta CRO Optimizer
         </h1>
-        <p className="max-w-2xl mb-6 text-lg text-gray-300">
-          The AI CRO system for Meta Ads: pain point extraction, audience testing, message validation, and full-funnel optimization.
+        <p className="max-w-2xl text-lg text-gray-400 mb-6">
+          Supercharge your Meta Ads with AI-powered landing page optimization, audience targeting, and full-funnel insights.
         </p>
-
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md mb-4">
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md">
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your email to join early access"
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
           <Button
-            size="lg"
-            className="bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-xl hover:scale-105 transition-transform"
-            onClick={async () => {
-              if (!email) {
-                setStatus('Please enter a valid email.');
-                return;
-              }
-              try {
-                const res = await fetch('/api/beta-signup', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ email }),
-                });
-                if (res.ok) {
-                  setStatus('Thanks for signing up!');
-                  setEmail('');
-                } else {
-                  setStatus('Something went wrong. Please try again.');
-                }
-              } catch {
-                setStatus('Error: Please try again later.');
-              }
-            }}
+            onClick={handleSubscribe}
+            className="bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:scale-105 transition-transform w-full sm:w-auto"
           >
-            Sign Up for Beta →
+            <Mail className="mr-2 h-4 w-4" />
+            Join Waitlist
           </Button>
         </div>
+        <p className="mt-2 text-sm text-gray-500">{status === 'idle' ? 'We’ll notify you when we launch.' : status}</p>
+      </section>
 
-        <p className="text-sm text-gray-400">{status === 'idle' ? 'Join as a beta tester and get early access.' : status}</p>
-      </main>
+      {/* WHAT IT DOES */}
+      <section className="px-6 py-20 max-w-5xl mx-auto text-center">
+        <h2 className="text-3xl font-bold mb-4 text-white">What Our AI CRO Engine Does</h2>
+        <p className="text-gray-400 max-w-3xl mx-auto">
+          Our AI engine analyzes your landing pages, extracts pain points from audience data, optimizes CTAs, and auto-tests ad creatives—all while giving you real-time performance insights.
+        </p>
+      </section>
 
-      {/* Features Section */}
-      <section className="px-6 py-20 min-h-[60vh] bg-gray-900 rounded-t-3xl shadow-inner">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
-          <div className="p-6 bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
-            <h3 className="text-xl font-semibold mb-3 text-blue-300">AI Insights</h3>
-            <p className="text-sm text-gray-400">
-              Extract customer pain points, cluster them by themes, and enrich with competitor analysis.
-            </p>
+      {/* FEATURE CARDS */}
+      <section className="px-6 py-16 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          {
+            title: 'AI-Powered Landing Pages',
+            desc: 'Instantly generate & optimize landing page variants based on real-time performance data.',
+            icon: <Zap className="h-8 w-8 text-purple-400" />,
+          },
+          {
+            title: 'Audience Pain Extraction',
+            desc: 'Analyze your audience and extract actionable pain points for ad messaging.',
+            icon: <Target className="h-8 w-8 text-pink-400" />,
+          },
+          {
+            title: 'Full Funnel Analytics',
+            desc: 'Track every click, conversion, and ROI metric in one unified dashboard.',
+            icon: <BarChart3 className="h-8 w-8 text-blue-400" />,
+          },
+        ].map((feature, i) => (
+          <div key={i} className="bg-gray-900 rounded-xl p-6 hover:shadow-lg transition border border-gray-800 flex flex-col items-center text-center">
+            {feature.icon}
+            <h3 className="text-xl font-semibold mt-4 mb-2 text-white">{feature.title}</h3>
+            <p className="text-sm text-gray-400">{feature.desc}</p>
           </div>
-          <div className="p-6 bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
-            <h3 className="text-xl font-semibold mb-3 text-blue-300">Audience Testing</h3>
-            <p className="text-sm text-gray-400">
-              Validate audience hypotheses using real Meta targeting data and performance tracking.
-            </p>
-          </div>
-          <div className="p-6 bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
-            <h3 className="text-xl font-semibold mb-3 text-blue-300">Full-Funnel Optimization</h3>
-            <p className="text-sm text-gray-400">
-              Track CTR, CPC, and conversions in real time—automatically scaling your best combinations.
-            </p>
-          </div>
+        ))}
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="px-6 py-20 max-w-6xl mx-auto text-center">
+        <h2 className="text-3xl font-bold mb-10 text-white">What Early Users Say</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              name: 'Alex G.',
+              feedback: 'This tool cut our ad spend by 30% while improving conversion rates. Total game changer!',
+            },
+            {
+              name: 'Jessica R.',
+              feedback: 'We were flying blind before. Now we have clear insights + AI optimization. Love it.',
+            },
+            {
+              name: 'Mark T.',
+              feedback: 'I can finally test landing pages & ads at scale without wasting hours. Brilliant!',
+            },
+          ].map((t, i) => (
+            <div key={i} className="bg-gray-900 rounded-xl p-6 text-left border border-gray-800 hover:shadow-lg transition">
+              <CheckCircle className="h-6 w-6 text-green-400 mb-3" />
+              <p className="text-sm text-gray-400 italic mb-4">"{t.feedback}"</p>
+              <p className="text-sm font-semibold text-white">{t.name}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Progress Section */}
-      <section className="px-6 py-20 min-h-[50vh] bg-gray-950 text-center">
-        <p className="mb-4 text-sm text-gray-400">Your Journey to AI-Powered CRO</p>
-        <div className="bg-gray-700 w-full h-2 rounded-full max-w-xl mx-auto">
-          <div className="bg-blue-500 w-1/2 h-2 rounded-full"></div>
-        </div>
-        <p className="mt-2 text-xs text-gray-400">50% Complete - Unlock full potential</p>
-      </section>
-
-      {/* Call to Action Section */}
-      <section className="px-6 py-24 min-h-[50vh] bg-gradient-to-r from-blue-600 to-purple-600 text-center text-white">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6">Ready to Scale Your Campaigns?</h2>
+      {/* FINAL CTA */}
+      <section className="px-6 py-24 bg-gradient-to-r from-purple-600 to-pink-600 text-center text-white">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6">Be the First to Try Meta CRO Optimizer</h2>
         <Button
           size="lg"
-          className="bg-white text-blue-600 font-bold shadow-lg hover:scale-105 transition-transform"
-          onClick={handleSignup}
+          className="bg-white text-purple-700 font-bold shadow-lg hover:scale-105 transition-transform"
+          onClick={handleSubscribe}
         >
-          Get Started →
+          <Mail className="mr-2 h-4 w-4" />
+          Join the Waitlist
         </Button>
       </section>
-
-      <Footer />
     </div>
   );
 }
