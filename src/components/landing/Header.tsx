@@ -1,4 +1,4 @@
-// src/components/landing/Header.tsx
+// src\components\landing\Header.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
