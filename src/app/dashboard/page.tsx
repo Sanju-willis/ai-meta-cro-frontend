@@ -11,6 +11,7 @@ import HomePage from '@/app/dashboard/pages/HomePage';
 import CompanyPage from '@/app/dashboard/pages/CompanyPage';
 import ItemsPage from '@/app/dashboard/pages/ItemsPage';
 import MetaPage from '@/app/dashboard/pages/MetaPage';
+import CampaignPage from '@/app/dashboard/pages/CampaignPage';
 import SettingsPage from '@/app/dashboard/pages/SettingsPage';
 
 
@@ -21,13 +22,14 @@ function DashboardContent() {
     <div className="flex min-h-screen">
       <Sidebar />
 
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-0">
         {/* DYNAMIC CONTENT */}
-        <div className="mt-8">
+        <div className="mt-0">
           {activeView === 'home' &&  <HomePage />}
           {activeView === 'company' && <CompanyPage />}
           {activeView === 'items'&& <ItemsPage />}
           {activeView === 'meta'&& <MetaPage />}
+          {activeView === 'campaign'&& <CampaignPage />}
           {activeView === 'settings' && <SettingsPage />}
         </div>
       </div>

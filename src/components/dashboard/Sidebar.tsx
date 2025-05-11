@@ -1,4 +1,4 @@
-// src/components/dashboard/Sidebar.tsx
+// src\components\dashboard\Sidebar.tsx
 
 'use client';
 
@@ -36,6 +36,7 @@ export default function Sidebar() {
     { id: 'company', label: 'Company', icon: Building2 },
     { id: 'items', label: 'Items', icon: Boxes },
     { id: 'meta', label: 'Meta', icon: Layers3 },
+    { id: 'campaign', label: 'Campaigns', icon: Layers3 },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 

@@ -4,20 +4,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import axios from 'axios';
 import { useUserAuth } from './AuthContext';
+import type { Company } from '@/types/company';
+import type { Item } from '@/types/item';
 
-type Company = {
-  _id: string;
-  name: string;
-  industry: string;
-  type: string;
-  // Add more fields if needed
-};
-
-type Item = {
-  _id: string;
-  name: string;
-  type: 'product' | 'service';
-};
 
 type CompanyContextType = {
   company: Company | null;
@@ -48,9 +37,10 @@ export const CompanyProvider = ({ children }: { children: ReactNode }) => {
       setCompany(response.data.company);
 
       // ✅ Make sure items are refreshed too
-      if (response.data.company.items) {
-        setItems(response.data.company.items);  // ✅ fix typo here
-      }
+     if (response.data.items) {
+  setItems(response.data.items); // ✅ these are the real DB items
+}
+
     } catch (error) {
       console.error('❌ Failed to refresh company data:', error);
     }
