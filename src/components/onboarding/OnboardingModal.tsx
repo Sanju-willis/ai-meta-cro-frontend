@@ -2,7 +2,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useUserAuth } from '@/app/context/AuthContext';
 import { useCompany } from '@/app/context/CompanyContext';
@@ -21,7 +20,6 @@ const TOTAL_STEPS = 4;
 export default function CompanyProfilePage({ onComplete }: { onComplete: () => void }) {
   const { saveUserToken, userToken } = useUserAuth();
   const { setCompany } = useCompany();
-  const router = useRouter();
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
