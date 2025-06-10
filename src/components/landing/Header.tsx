@@ -1,7 +1,8 @@
-// src\components\landing\Header.tsx
+// src/components/landing/Header.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import {
@@ -11,97 +12,96 @@ import {
   Target,
   Menu,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const navItems = [
+    { path: '/features', label: 'Features' },
+    { path: '/pricing', label: 'Pricing' },
+  ];
+
+  const aboutItems = [
+    { path: '/about', label: 'Our Mission', icon: <Rocket size={16} /> },
+    { path: '/team', label: 'Our Team', icon: <Users size={16} /> },
+    { path: '/roadmap', label: 'Roadmap', icon: <Target size={16} /> },
+    { path: '/blog', label: 'Blog', icon: <BookOpen size={16} /> },
+  ];
+
   return (
-    <header className="w-full bg-gray-950 bg-opacity-90 backdrop-blur border-b border-gray-800 shadow-sm sticky top-0 z-50">
+    <header className="w-full bg-black bg-opacity-80 backdrop-blur-md border-b border-gray-800 shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-        
         {/* Logo */}
         <div
           className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text cursor-pointer hover:opacity-80 transition"
           onClick={() => router.push('/')}
         >
-          Meta CRO Optimizer
+          Aenigma AI
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-8 items-center relative">
-          
-          {/* About with mega menu */}
+          {/* About with animated mega menu */}
           <div className="relative group">
-            <button className="text-gray-300 hover:text-white text-sm transition">
+            <button className="text-sm text-gray-300 hover:text-white transition">
               About
             </button>
 
-            {/* Mega Menu */}
-            <div className="absolute left-0 top-full mt-2 bg-gray-900 border border-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 w-80 p-4 grid grid-cols-2 gap-4 z-50">
-              <button
-                className="flex items-center gap-2 text-sm text-gray-300 hover:text-white text-left"
-                onClick={() => router.push('/about')}
+            <AnimatePresence>
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="absolute left-0 top-full mt-2 bg-[#0f0f0f] border border-gray-800 rounded-lg shadow-xl w-80 p-4 grid grid-cols-2 gap-4 z-50 backdrop-blur-lg invisible group-hover:visible group-hover:opacity-100 group-hover:translate-y-0"
               >
-                <Rocket size={16} />
-                Our Mission
-              </button>
-              <button
-                className="flex items-center gap-2 text-sm text-gray-300 hover:text-white text-left"
-                onClick={() => router.push('/team')}
-              >
-                <Users size={16} />
-                Our Team
-              </button>
-              <button
-                className="flex items-center gap-2 text-sm text-gray-300 hover:text-white text-left"
-                onClick={() => router.push('/roadmap')}
-              >
-                <Target size={16} />
-                Roadmap
-              </button>
-              <button
-                className="flex items-center gap-2 text-sm text-gray-300 hover:text-white text-left"
-                onClick={() => router.push('/blog')}
-              >
-                <BookOpen size={16} />
-                Blog
-              </button>
-            </div>
+                {aboutItems.map(({ path, label, icon }) => (
+                  <button
+                    key={path}
+                    className="flex items-center gap-2 text-sm text-gray-300 hover:text-white"
+                    onClick={() => router.push(path)}
+                  >
+                    {icon} {label}
+                  </button>
+                ))}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
-          <button
-            className="text-gray-300 hover:text-white text-sm transition"
-            onClick={() => router.push('/features')}
-          >
-            Features
-          </button>
-          <button
-            className="text-gray-300 hover:text-white text-sm transition"
-            onClick={() => router.push('/pricing')}
-          >
-            Pricing
-          </button>
+          {navItems.map(({ path, label }) => (
+            <button
+              key={path}
+              className={`text-sm transition ${
+                pathname === path ? 'text-white font-semibold' : 'text-gray-300 hover:text-white'
+              }`}
+              onClick={() => router.push(path)}
+            >
+              {label}
+            </button>
+          ))}
         </nav>
 
-        {/* Action Buttons */}
+        {/* Desktop CTA */}
         <div className="hidden md:flex gap-3 items-center">
           <Button
             variant="ghost"
-            className="text-gray-300 hover:text-white transition-colors"
+            className="text-gray-300 hover:text-white"
             onClick={() => router.push('/login')}
           >
             Login
           </Button>
           <Button
-            className="bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:scale-105 transition-transform"
+            className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold px-4 py-2 rounded-md shadow-lg hover:scale-105 transition-transform"
             onClick={() => router.push('/signup')}
           >
             Get Started →
           </Button>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Toggle */}
         <button
           className="md:hidden text-gray-300 hover:text-white"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -111,86 +111,49 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-gray-900 border-t border-gray-800 flex flex-col px-6 py-4 space-y-4 animate-fade-up">
-          {/* Mega Menu items */}
-          <button
-            className="text-gray-300 hover:text-white text-left text-sm"
-            onClick={() => {
-              router.push('/about');
-              setMobileMenuOpen(false);
-            }}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-black bg-opacity-90 border-t border-gray-800 flex flex-col px-6 py-4 space-y-4 backdrop-blur animate-fade-up"
           >
-            Our Mission
-          </button>
-          <button
-            className="text-gray-300 hover:text-white text-left text-sm"
-            onClick={() => {
-              router.push('/team');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Our Team
-          </button>
-          <button
-            className="text-gray-300 hover:text-white text-left text-sm"
-            onClick={() => {
-              router.push('/roadmap');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Roadmap
-          </button>
-          <button
-            className="text-gray-300 hover:text-white text-left text-sm"
-            onClick={() => {
-              router.push('/blog');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Blog
-          </button>
-
-          {/* Other nav */}
-          <button
-            className="text-gray-300 hover:text-white text-left text-sm"
-            onClick={() => {
-              router.push('/features');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Features
-          </button>
-          <button
-            className="text-gray-300 hover:text-white text-left text-sm"
-            onClick={() => {
-              router.push('/pricing');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Pricing
-          </button>
-          <Button
-            variant="ghost"
-            className="w-full text-gray-300 hover:text-white transition-colors"
-            onClick={() => {
-              router.push('/login');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Login
-          </Button>
-          <Button
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:scale-105 transition-transform"
-            onClick={() => {
-              router.push('/signup');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Get Started →
-          </Button>
-        </div>
-      )}
+            {[...aboutItems, ...navItems].map(({ path, label }) => (
+              <button
+                key={path}
+                className="text-sm text-gray-300 hover:text-white text-left"
+                onClick={() => {
+                  router.push(path);
+                  setMobileMenuOpen(false);
+                }}
+              >
+                {label}
+              </button>
+            ))}
+            <Button
+              variant="ghost"
+              className="w-full text-gray-300 hover:text-white"
+              onClick={() => {
+                router.push('/login');
+                setMobileMenuOpen(false);
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold px-4 py-2 rounded-md shadow-lg hover:scale-105 transition-transform"
+              onClick={() => {
+                router.push('/signup');
+                setMobileMenuOpen(false);
+              }}
+            >
+              Get Started →
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

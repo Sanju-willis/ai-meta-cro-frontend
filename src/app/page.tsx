@@ -1,5 +1,4 @@
 // src\app\page.tsx
-
 'use client';
 
 import { useState } from 'react';
@@ -13,8 +12,17 @@ import {
   ShieldCheck,
   TrendingUp,
   Layers3,
-  CheckCircle,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+const AnimatedBlobs = dynamic(() => import('@/components/visuals/AnimatedBlobs'), { ssr: false });
+const ParticleBackground = dynamic(() => import('@/components/visuals/Particles'), { ssr: false });
 
 export default function LandingPage() {
   const [email, setEmail] = useState('');
@@ -43,165 +51,141 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a0a0f] to-[#0f0f1a] text-gray-300 font-sans">
+    <div className="min-h-screen bg-black text-white font-sans relative overflow-hidden">
       <Header />
-      
+      <ParticleBackground />
+
       {/* HERO */}
-      <section className="min-h-screen flex flex-col justify-center items-center px-4 text-center animate-fade-up">
-        <h1 className="text-4xl sm:text-6xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text mb-4">
-          AI Meta CRO Optimizer
-        </h1>
-        <p className="max-w-2xl text-lg text-gray-400 mb-6">
-          Supercharge your Meta Ads with AI-powered landing page optimization, audience targeting, and full-funnel insights.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md">
+      <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 bg-gradient-to-b from-[#0d0d0d] to-black relative z-10">
+        <AnimatedBlobs />
+        <motion.h1
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text mb-6"
+        >
+          Aenigma AI CRO Optimizer
+        </motion.h1>
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="max-w-2xl text-lg text-gray-400 mb-8"
+        >
+          Built for high-velocity ad testing and conversion tracking — powered by AI agents.
+        </motion.p>
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md"
+        >
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email to join early access"
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="Enter your email"
+            className="w-full px-4 py-2 rounded-md bg-[#111] text-white placeholder-gray-600 border border-gray-700 focus:outline-none focus:ring focus:ring-purple-400"
           />
           <Button
             onClick={handleSubscribe}
-            className="bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:scale-105 transition-transform w-full sm:w-auto"
+            className="bg-purple-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-purple-400 transition"
           >
-            <Mail className="mr-2 h-4 w-4" />
-            Join Waitlist
+            <Mail className="mr-2 h-4 w-4" /> Join Waitlist
           </Button>
-        </div>
-        <p className="mt-2 text-sm text-gray-500">{status === 'idle' ? 'We’ll notify you when we launch.' : status}</p>
+        </motion.div>
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="mt-2 text-sm text-gray-600"
+        >
+          {status === 'idle' ? 'We’ll notify you when we launch.' : status}
+        </motion.p>
       </section>
 
-      {/* WHAT IT DOES */}
-      <section className="px-6 py-20 max-w-5xl mx-auto text-center animate-fade-up">
-        <h2 className="text-3xl font-bold mb-4 text-white">What Our AI CRO Engine Does</h2>
-        <p className="text-gray-400 max-w-3xl mx-auto">
-          Our AI engine analyzes your landing pages, extracts pain points from audience data, optimizes CTAs, and auto-tests ad creatives—all while giving you real-time performance insights.
-        </p>
-      </section>
-
-      {/* FEATURES */}
-      <section className="px-6 py-16 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-up">
-        {[
-          {
-            title: 'AI-Powered Landing Pages',
-            desc: 'Instantly generate & optimize landing page variants based on real-time performance data.',
-            icon: <Zap className="h-8 w-8 text-purple-400" />,
-          },
-          {
-            title: 'Audience Pain Extraction',
-            desc: 'Analyze your audience and extract actionable pain points for ad messaging.',
-            icon: <Target className="h-8 w-8 text-pink-400" />,
-          },
-          {
-            title: 'Full Funnel Analytics',
-            desc: 'Track every click, conversion, and ROI metric in one unified dashboard.',
-            icon: <BarChart3 className="h-8 w-8 text-blue-400" />,
-          },
-        ].map((feature, i) => (
-          <div key={i} className="bg-gray-900 rounded-xl p-6 hover:shadow-lg transition border border-gray-800 flex flex-col items-center text-center">
-            {feature.icon}
-            <h3 className="text-xl font-semibold mt-4 mb-2 text-white">{feature.title}</h3>
-            <p className="text-sm text-gray-400">{feature.desc}</p>
-          </div>
-        ))}
-      </section>
-
-      {/* AUDIENCE & TESTING */}
-      <section className="px-6 py-20 max-w-5xl mx-auto text-center animate-fade-up">
-        <h2 className="text-3xl font-bold mb-4 text-white">Audience Targeting & Testing</h2>
-        <p className="text-gray-400 max-w-3xl mx-auto mb-10">
-          Our tool dynamically tests different audience segments, Meta targeting options, and creative angles—so you can quickly identify your most profitable combinations.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* PLATFORM OVERVIEW */}
+      <section className="px-6 py-28 max-w-6xl mx-auto text-center relative z-10">
+        <motion.h2
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-3xl font-bold mb-6"
+        >
+          Platform Features
+        </motion.h2>
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-gray-400 mb-12 max-w-3xl mx-auto"
+        >
+          From AI-generated landing pages to performance analytics, our tools automate and enhance every part of your CRO workflow.
+        </motion.p>
+        <div className="grid md:grid-cols-3 gap-8">
           {[
             {
-              title: 'Automated Split Tests',
-              desc: 'Easily test different headlines, images, and targeting groups without manual effort.',
-              icon: <Layers3 className="h-8 w-8 text-purple-400" />,
+              icon: <Zap className="h-8 w-8 text-purple-400" />, title: 'Landing Page Variants', desc: 'Generate tailored variants in real time based on performance data.'
             },
             {
-              title: 'Real-Time Audience Insights',
-              desc: 'Uncover exactly who converts best and why with live performance tracking.',
-              icon: <Target className="h-8 w-8 text-pink-400" />,
-            },
-          ].map((item, i) => (
-            <div key={i} className="bg-gray-900 rounded-xl p-6 text-left border border-gray-800 hover:shadow-lg transition">
-              {item.icon}
-              <h4 className="text-lg font-semibold mt-4 mb-2 text-white">{item.title}</h4>
-              <p className="text-sm text-gray-400">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ANALYTICS & INSIGHTS */}
-      <section className="px-6 py-20 max-w-5xl mx-auto text-center animate-fade-up">
-        <h2 className="text-3xl font-bold mb-4 text-white">Analytics That Actually Help</h2>
-        <p className="text-gray-400 max-w-3xl mx-auto mb-10">
-          Stop wasting time with messy spreadsheets. Get clear, actionable insights on funnel performance, conversion costs, and more—all in one sleek dashboard.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            {
-              title: 'Conversion Tracking',
-              desc: 'Track conversions, ROAS, and ad spend easily with full transparency.',
-              icon: <TrendingUp className="h-8 w-8 text-blue-400" />,
+              icon: <Target className="h-8 w-8 text-purple-400" />, title: 'Audience Detection', desc: 'Segment and adapt messaging based on audience behavior.'
             },
             {
-              title: 'Privacy-First Data',
-              desc: 'GDPR & CCPA compliant—your data is safe & fully anonymized.',
-              icon: <ShieldCheck className="h-8 w-8 text-green-400" />,
-            },
-          ].map((item, i) => (
-            <div key={i} className="bg-gray-900 rounded-xl p-6 text-left border border-gray-800 hover:shadow-lg transition">
-              {item.icon}
-              <h4 className="text-lg font-semibold mt-4 mb-2 text-white">{item.title}</h4>
-              <p className="text-sm text-gray-400">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="px-6 py-20 max-w-6xl mx-auto text-center animate-fade-up">
-        <h2 className="text-3xl font-bold mb-10 text-white">What Early Users Say</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              name: 'Alex G',
-              feedback: 'This tool cut our ad spend by 30% while improving conversion rates. Total game changer!',
+              icon: <BarChart3 className="h-8 w-8 text-purple-400" />, title: 'Unified Analytics', desc: 'See conversions, spend, and ROI across funnel stages.'
             },
             {
-              name: 'Jessica R',
-              feedback: 'We were flying blind before. Now we have clear insights + AI optimization. Love it.',
+              icon: <Layers3 className="h-8 w-8 text-purple-400" />, title: 'Split Testing', desc: 'Auto-test creatives and headlines across ad sets.'
             },
             {
-              name: 'Mark T',
-              feedback: 'I can finally test landing pages & ads at scale without wasting hours. Brilliant!',
+              icon: <TrendingUp className="h-8 w-8 text-purple-400" />, title: 'Live ROAS Tracking', desc: 'Measure real-time return on ad spend with visual clarity.'
             },
-          ].map((t, i) => (
-            <div key={i} className="bg-gray-900 rounded-xl p-6 text-left border border-gray-800 hover:shadow-lg transition">
-              <CheckCircle className="h-6 w-6 text-green-400 mb-3" />
-              <p className="text-sm text-gray-400 italic mb-4">{t.feedback}</p>
-              <p className="text-sm font-semibold text-white">{t.name}</p>
-            </div>
+            {
+              icon: <ShieldCheck className="h-8 w-8 text-purple-400" />, title: 'Privacy Compliant', desc: 'GDPR + CCPA ready, anonymized tracking by default.'
+            }
+          ].map((f, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="bg-[#0f0f0f] p-6 rounded-xl border border-[#1a1a1a] hover:shadow-lg transition backdrop-blur-md bg-opacity-60"
+            >
+              {f.icon}
+              <h3 className="text-lg font-semibold mt-4 mb-2">{f.title}</h3>
+              <p className="text-sm text-gray-400">{f.desc}</p>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* FINAL CTA */}
-      <section className="px-6 py-24 bg-gradient-to-r from-purple-600 to-pink-600 text-center text-white animate-fade-up">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6">Be the First to Try Meta CRO Optimizer</h2>
-        <Button
-          size="lg"
-          className="bg-white text-purple-700 font-bold shadow-lg hover:scale-105 transition-transform"
-          onClick={handleSubscribe}
+      <section className="px-6 py-28 bg-gradient-to-r from-[#1a0d2f] to-black text-center relative z-10">
+        <motion.h2
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-3xl sm:text-4xl font-bold mb-8"
         >
-          <Mail className="mr-2 h-4 w-4" />
-          Join the Waitlist
-        </Button>
+          Convert Smarter. Convert Better.
+        </motion.h2>
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <Button
+            size="lg"
+            className="bg-purple-500 text-white font-bold px-8 py-4 rounded-md hover:bg-purple-400 transition"
+            onClick={handleSubscribe}
+          >
+            <Mail className="mr-2 h-5 w-5" /> Join the Waitlist
+          </Button>
+        </motion.div>
       </section>
     </div>
   );
