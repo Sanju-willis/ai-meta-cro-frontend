@@ -1,4 +1,3 @@
-// src\app\layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
@@ -14,18 +13,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Meta CRO Optimizer – AI-Powered Ad Automation",
+  title: "Kordor – AI-Powered Ad Automation",
   description:
     "Boost Meta Ads performance with AI-powered CRO: automated landing pages, pain extraction, targeting & analytics.",
+  icons: {
+    icon: "/logo-kordor.svg", // ✅ Make sure favicon.ico is in /public
+  },
   openGraph: {
     title: "Meta CRO Optimizer – AI-Powered Ad Automation",
     description:
       "Boost Meta Ads performance with AI-powered CRO: automated landing pages, pain extraction, targeting & analytics.",
-    url: "https://yourdomain.com", // 🔄 update to your domain when live
+    url: "https://yourdomain.com",
     siteName: "Meta CRO Optimizer",
     images: [
       {
-        url: "https://yourdomain.com/og-image.png", // 🔄 replace with your OG image URL later
+        url: "https://yourdomain.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "Meta CRO Optimizer",
@@ -39,10 +41,9 @@ export const metadata: Metadata = {
     title: "Meta CRO Optimizer – AI-Powered Ad Automation",
     description:
       "Boost Meta Ads performance with AI-powered CRO: automated landing pages, pain extraction, targeting & analytics.",
-    images: ["https://yourdomain.com/og-image.png"], // 🔄 same as above
+    images: ["https://yourdomain.com/og-image.png"],
   },
 };
-
 
 export default function RootLayout({
   children,
@@ -51,6 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head />
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
