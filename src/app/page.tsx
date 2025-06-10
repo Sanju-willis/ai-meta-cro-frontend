@@ -56,53 +56,60 @@ export default function LandingPage() {
       <ParticleBackground />
 
       {/* HERO */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 bg-gradient-to-b from-[#0d0d0d] to-black relative z-10">
-        <AnimatedBlobs />
-        <motion.h1
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text mb-6"
-        >
-          Aenigma AI CRO Optimizer
-        </motion.h1>
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="max-w-2xl text-lg text-gray-400 mb-8"
-        >
-          Built for high-velocity ad testing and conversion tracking — powered by AI agents.
-        </motion.p>
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md"
-        >
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            className="w-full px-4 py-2 rounded-md bg-[#111] text-white placeholder-gray-600 border border-gray-700 focus:outline-none focus:ring focus:ring-purple-400"
-          />
-          <Button
-            onClick={handleSubscribe}
-            className="bg-purple-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-purple-400 transition"
-          >
-            <Mail className="mr-2 h-4 w-4" /> Join Waitlist
-          </Button>
-        </motion.div>
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-2 text-sm text-gray-600"
-        >
-          {status === 'idle' ? 'We’ll notify you when we launch.' : status}
-        </motion.p>
-      </section>
+     <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 bg-gradient-to-b from-[#0d0d0d] to-black relative z-10">
+  <AnimatedBlobs />
+  <motion.h1
+    variants={fadeUp}
+    initial="hidden"
+    animate="visible"
+    className="text-5xl sm:text-6xl font-extrabold mb-6"
+  >
+    <span className="bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
+      Kordor AI
+    </span>
+    <br />
+    <span className="bg-gradient-to-r from-blue-400 to-cyan-500 text-transparent bg-clip-text">
+      Automate. Optimize. Scale.
+    </span>
+  </motion.h1>
+  <motion.p
+    variants={fadeUp}
+    initial="hidden"
+    animate="visible"
+    className="max-w-2xl text-lg text-gray-400 mb-8"
+  >
+    Built for high-velocity ad testing and conversion tracking — powered by AI agents.
+  </motion.p>
+  <motion.div
+    variants={fadeUp}
+    initial="hidden"
+    animate="visible"
+    className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md"
+  >
+    <input
+      type="email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      placeholder="Enter your email"
+      className="w-full px-4 py-2 rounded-md bg-[#111] text-white placeholder-gray-600 border border-gray-700 focus:outline-none focus:ring focus:ring-purple-400"
+    />
+    <Button
+      onClick={handleSubscribe}
+      className="bg-purple-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-purple-400 transition"
+    >
+      <Mail className="mr-2 h-4 w-4" /> Join Waitlist
+    </Button>
+  </motion.div>
+  <motion.p
+    variants={fadeUp}
+    initial="hidden"
+    animate="visible"
+    className="mt-2 text-sm text-gray-600"
+  >
+    {status === 'idle' ? 'We’ll notify you when we launch.' : status}
+  </motion.p>
+</section>
+
 
       {/* PLATFORM OVERVIEW */}
       <section className="px-6 py-28 max-w-6xl mx-auto text-center relative z-10">

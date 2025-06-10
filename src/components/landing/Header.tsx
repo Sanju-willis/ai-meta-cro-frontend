@@ -1,4 +1,4 @@
-// src\components\landing\Header.tsx
+// src/components/landing/Header.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,7 @@ import {
   Menu,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 export default function Header() {
   const router = useRouter();
@@ -34,12 +35,23 @@ export default function Header() {
   return (
     <header className="w-full bg-black bg-opacity-80 backdrop-blur-md border-b border-gray-800 shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-        {/* Logo */}
+        {/* Logo + Name Combined */}
         <div
-          className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text cursor-pointer hover:opacity-80 transition"
+          className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition"
           onClick={() => router.push('/')}
         >
-          Aenigma AI
+<span className="inline-flex items-center text-2xl font-bold leading-none bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
+  <Image
+    src="/logo-kordor.svg"
+    alt="Kordor K"
+    width={40}
+    height={40}
+    className="inline-block align-middle"
+  />
+  <span className="-ml-[0px]">ordor</span>
+  <span className="ml-[2px] font-medium">AI</span>
+</span>
+
         </div>
 
         {/* Desktop Navigation */}
