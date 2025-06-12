@@ -10,8 +10,8 @@ export default function Footer() {
           © {new Date().getFullYear()} Ai Meta CRO. All rights reserved.
         </div>
         <div className="flex gap-4">
-          <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
-          <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
+          <a href="/privacy" className="hidden hover:text-white transition-colors">Privacy Policy</a>
+          <a href="/terms" className="hidden hover:text-white transition-colors">Terms of Service</a>
         </div>
       </div>
     </footer>

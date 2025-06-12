@@ -1,3 +1,4 @@
+// src\components\visuals\Particles.tsx
 'use client';
 
 import Particles from 'react-particles';
