@@ -3,13 +3,12 @@
 
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import {
   Menu,
   Facebook,
   LinkedinIcon,
-  X
+  
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
